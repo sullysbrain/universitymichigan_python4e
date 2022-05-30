@@ -1,2 +1,2 @@
-mytext = "Thanks for helping us learn!"
+mytext = "Coding Python"
 print(mytext)
