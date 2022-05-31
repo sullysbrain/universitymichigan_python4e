@@ -1,10 +1,11 @@
 import urllib.request, urllib.parse, urllib.error
 import xml.etree.ElementTree as ET
 import ssl
+import json
 
 #sample url
-# url='http://py4e-data.dr-chuck.net/comments_42.xml'
-url='http://py4e-data.dr-chuck.net/comments_1564277.xml'
+# url='http://py4e-data.dr-chuck.net/comments_42.json'
+url='http://py4e-data.dr-chuck.net/comments_1564278.json'
 
 # Ignore SSL certificate errors
 ctx = ssl.create_default_context()
@@ -13,15 +14,11 @@ ctx.verify_mode = ssl.CERT_NONE
 
 uh = urllib.request.urlopen(url, context=ctx)
 data = uh.read()
-tree = ET.fromstring(data)
 
-lst = tree.findall('comments/comment')
+info = json.loads(data)
 
-# print('User count:', len(lst))
 count = 0
-for item in lst:
-    # print('name: ', item.find('name').text)
-    # print('Count: ', item.find('count').text)
-    x = int(item.find('count').text)
-    count = count + x
+for item in info['comments']:
+    # print('item: ', item['count'])
+    count = count + int(item['count'])
 print('total:', count)
